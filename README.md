@@ -45,6 +45,13 @@ npm start
 
 The MongoDB connection can be checked at `GET http://localhost:5050/api/health`. A successful response includes `"database": true`.
 
+To load the 10 sample books into MongoDB Compass:
+
+```bash
+cd backend
+npm run seed:books
+```
+
 ## 5. Environment Variables
 
 Create `backend/.env` from `.env.example`:
