@@ -31,6 +31,16 @@ const models = { books: Book, members: Member };
 
 app.get('/api/health', (req, res) => res.json({ ok: true, database: mongoose.connection.readyState === 1 }));
 
+app.get('/api/mongo/summary', asyncRoute(async (req, res) => {
+  if (mongoose.connection.readyState !== 1) return res.status(503).json({ success: false, error: { status: 503, message: 'MongoDB is not connected' } });
+  const [books, members, borrowings] = await Promise.all([
+    Book.countDocuments(),
+    Member.countDocuments(),
+    Borrowing.countDocuments()
+  ]);
+  res.status(200).json({ success: true, collections: { books, members, borrowings } });
+}));
+
 app.get('/api/v1/borrowings', (req, res) => {
   res.status(200).json(apiBorrowings);
 });
@@ -155,8 +165,9 @@ app.use((error, req, res, next) => {
 
 app.listen(port, () => console.log(`Library API listening on port ${port}`));
 
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI)
+const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+if (mongoUri) {
+  mongoose.connect(mongoUri)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('MongoDB connection failed:', error.message));
 } else {

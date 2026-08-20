@@ -18,11 +18,13 @@ npm install
 cp ../.env.example .env
 ```
 
-Set `MONGODB_URI` in `backend/.env`, then start the API:
+Set `MONGO_URI` in `backend/.env`, then start the API:
 
 ```bash
 npm start
 ```
+
+The backend supports both `MONGO_URI` and `MONGODB_URI`. Mongoose schemas for books, members, and borrowing records are in `backend/models/`. MongoDB validation and collection counts can be checked with `GET /api/mongo/summary`.
 
 In another terminal, start the React client:
 
