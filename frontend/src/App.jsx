@@ -57,7 +57,7 @@ function LibraryApp() {
     {notice && <div className="notice">{notice}<button onClick={() => setNotice('')}>Dismiss</button></div>}
     <Routes>
       <Route path="/" element={<HomePage books={books} members={members} borrowings={borrowings} onNavigate={navigate} onReturn={returnBook} />} />
-      <Route path="/books" element={<BooksPage books={books} book={book} setBook={setBook} onSubmit={(event) => submit(event, 'books', book, () => setBook(emptyBook))} onRemove={(id) => remove('books', id)} />} />
+      <Route path="/books" element={<BooksPage book={book} setBook={setBook} onSubmit={(event) => submit(event, 'books', book, () => setBook(emptyBook))} />} />
       <Route path="/borrow" element={<BorrowPage books={books} members={members} borrowings={borrowings} onSubmit={submitBorrowing} onReturn={returnBook} />} />
     </Routes>
   </main>;
