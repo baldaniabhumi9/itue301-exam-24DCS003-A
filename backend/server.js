@@ -8,7 +8,7 @@ const Member = require('./models/Member');
 const Borrowing = require('./models/Borrowing');
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 
 app.use(cors());
 app.use(express.json());

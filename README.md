@@ -32,4 +32,4 @@ npm install
 npm run dev
 ```
 
-The frontend proxies `/api` requests to `http://localhost:5000`. For a production client build, run `npm run build` in `frontend/` and start the backend with `NODE_ENV=production npm start`.
+The frontend proxies `/api` requests to `http://localhost:5050`. For a production client build, run `npm run build` in `frontend/` and start the backend with `NODE_ENV=production npm start`.
