@@ -15,7 +15,11 @@ const apiBooks = [
   { id: 'book-3', title: 'The Little Prince', author: 'Antoine de Saint-Exupery', category: 'Fiction', isbn: '9780156012195', available: true },
   { id: 'book-4', title: 'Atomic Habits', author: 'James Clear', category: 'Self Development', isbn: '9780735211292', available: true },
   { id: 'book-5', title: 'Sapiens', author: 'Yuval Noah Harari', category: 'History', isbn: '9780062316097', available: true },
-  { id: 'book-6', title: 'The Pragmatic Programmer', author: 'David Thomas', category: 'Technology', isbn: '9780135957059', available: true }
+  { id: 'book-6', title: 'The Pragmatic Programmer', author: 'David Thomas', category: 'Technology', isbn: '9780135957059', available: true },
+  { id: 'book-7', title: 'Pride and Prejudice', author: 'Jane Austen', category: 'Classic', isbn: '9780141439518', available: false, description: 'A sharp, funny romance about first impressions, family, and finding an equal.' },
+  { id: 'book-8', title: 'Educated', author: 'Tara Westover', category: 'Memoir', isbn: '9780399590504', available: true, description: 'A powerful memoir about education, identity, and building a life beyond expectations.' },
+  { id: 'book-9', title: '1984', author: 'George Orwell', category: 'Dystopian', isbn: '9780451524935', available: false, description: 'A haunting vision of surveillance, truth, and one person resisting total control.' },
+  { id: 'book-10', title: 'The Alchemist', author: 'Paulo Coelho', category: 'Fiction', isbn: '9780062315007', available: true, description: 'An uplifting fable about following a dream and noticing the wisdom along the way.' }
 ];
 const apiBorrowings = [];
 
