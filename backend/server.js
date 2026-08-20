@@ -11,7 +11,11 @@ const app = express();
 const port = process.env.PORT || 5050;
 const apiBooks = [
   { id: 'book-1', title: 'The Design of Everyday Things', author: 'Don Norman', category: 'Design', isbn: '9780465050659', available: true },
-  { id: 'book-2', title: 'A Room of One\'s Own', author: 'Virginia Woolf', category: 'Literature', isbn: '9780156787338', available: true }
+  { id: 'book-2', title: 'A Room of One\'s Own', author: 'Virginia Woolf', category: 'Literature', isbn: '9780156787338', available: true },
+  { id: 'book-3', title: 'The Little Prince', author: 'Antoine de Saint-Exupery', category: 'Fiction', isbn: '9780156012195', available: true },
+  { id: 'book-4', title: 'Atomic Habits', author: 'James Clear', category: 'Self Development', isbn: '9780735211292', available: true },
+  { id: 'book-5', title: 'Sapiens', author: 'Yuval Noah Harari', category: 'History', isbn: '9780062316097', available: true },
+  { id: 'book-6', title: 'The Pragmatic Programmer', author: 'David Thomas', category: 'Technology', isbn: '9780135957059', available: true }
 ];
 const apiBorrowings = [];
 
@@ -33,16 +37,46 @@ app.get('/api/v1/borrowings', (req, res) => {
 
 app.post('/api/v1/borrowings', (req, res, next) => {
   try {
-    const { memberId, bookId, borrowDate, returnDate, status = 'borrowed' } = req.body;
+    const { memberId, memberName, bookId, borrowDate, returnDate, status = 'borrowed' } = req.body;
+    const book = apiBooks.find((item) => item.id === bookId);
     if (!memberId || !bookId || !borrowDate || !['borrowed', 'returned', 'overdue'].includes(status)) {
-      const error = new Error('memberId, bookId, borrowDate, and a valid status are required');
+      const error = new Error('member name, book, borrow date, and a valid status are required');
       error.status = 400;
       throw error;
     }
+    if (!book) {
+      const error = new Error('Book not found');
+      error.status = 404;
+      throw error;
+    }
+    if (!book.available) {
+      const error = new Error('Book is currently unavailable');
+      error.status = 409;
+      throw error;
+    }
 
-    const borrowing = { id: `borrowing-${apiBorrowings.length + 1}`, memberId, bookId, borrowDate, returnDate: returnDate || null, status };
+    const borrowing = { id: `borrowing-${apiBorrowings.length + 1}`, memberId, memberName: memberName || memberId, bookId, bookTitle: book.title, borrowDate, returnDate: returnDate || null, status };
     apiBorrowings.push(borrowing);
+    book.available = false;
     res.status(201).json(borrowing);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put('/api/v1/borrowings/:id', (req, res, next) => {
+  try {
+    const borrowing = apiBorrowings.find((item) => item.id === req.params.id);
+    if (!borrowing) {
+      const error = new Error('Borrowing not found');
+      error.status = 404;
+      throw error;
+    }
+    borrowing.status = req.body.status || 'returned';
+    borrowing.returnDate = req.body.returnDate || new Date().toISOString();
+    const book = apiBooks.find((item) => item.id === borrowing.bookId);
+    if (book) book.available = true;
+    res.status(200).json(borrowing);
   } catch (error) {
     next(error);
   }
